@@ -41,6 +41,14 @@
         android:drawablePadding="15dp"
         android:layout_gravity="left|bottom" />
 
+    <Button
+        android:id="@+id/cheat_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:text="@string/cheat_button"
+        />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
