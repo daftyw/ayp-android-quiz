@@ -14,13 +14,14 @@ public class QuizActivity extends AppCompatActivity {
 
     private static final int REQUEST_CHEATED = 7628;
     private static final String TAG = "AYPQUIZ";
+    private static final String QUESTIONS = "QUESTIONS";
     private static final String INDEX = "INDEX";
-
     private Button trueButton;
     private Button cheatButton;
     private Button falseButton;
     private Button previousButton;
     private Button nextButton;
+
     private TextView questionText;
 
     private Question[] questions = new Question[] {
@@ -29,7 +30,6 @@ public class QuizActivity extends AppCompatActivity {
             new Question(R.string.question_3_math, false),
             new Question(R.string.question_4_mar, false)
     };
-
     private int currentIndex;
     private boolean isCheater;
 
@@ -71,6 +71,7 @@ public class QuizActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         Log.d(TAG, "State is saving");
+        savedInstanceState.putParcelableArray(QUESTIONS, questions);
         savedInstanceState.putInt(INDEX, currentIndex);
     }
 
@@ -89,6 +90,7 @@ public class QuizActivity extends AppCompatActivity {
 
         if(savedInstanceState != null) {
             currentIndex = savedInstanceState.getInt(INDEX, 0);
+            questions = (Question[]) savedInstanceState.getParcelableArray(QUESTIONS);
         } else {
             currentIndex = 0;
         }
@@ -159,7 +161,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private boolean getCurrentAnswer() {
-        return questions[currentIndex].getAnswer();
+        return getCurrentQuestion().getAnswer();
     }
 
     private void resetCheater() {
@@ -167,12 +169,16 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void updateQuestion() {
-        questionText.setText(questions[currentIndex].getQuestionId());
+        questionText.setText(getCurrentQuestion().getQuestionId());
+    }
+
+    public Question getCurrentQuestion() {
+        return questions[currentIndex];
     }
 
     public void checkAnswer(boolean answer) {
 
-        boolean correctAnswer = questions[currentIndex].getAnswer();
+        boolean correctAnswer = getCurrentQuestion().getAnswer();
 
         int result ;
 
