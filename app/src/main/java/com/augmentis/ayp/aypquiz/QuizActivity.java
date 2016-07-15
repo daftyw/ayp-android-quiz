@@ -31,7 +31,6 @@ public class QuizActivity extends AppCompatActivity {
             new Question(R.string.question_4_mar, false)
     };
     private int currentIndex;
-    private boolean isCheater;
 
     public QuizActivity() {
         Log.d(TAG, "Create QuizActivity");
@@ -95,7 +94,6 @@ public class QuizActivity extends AppCompatActivity {
             currentIndex = 0;
         }
 
-        resetCheater();
         updateQuestion();
 
         trueButton.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +115,6 @@ public class QuizActivity extends AppCompatActivity {
             public void onClick(View v) {
                 currentIndex = (currentIndex - 1) % questions.length;
                 if(currentIndex <0 ) currentIndex += 4;
-                resetCheater();
                 updateQuestion();
             }
         });
@@ -128,7 +125,6 @@ public class QuizActivity extends AppCompatActivity {
                 //currentIndex++;
                 //if(currentIndex == questions.length) currentIndex = 0;
                 currentIndex = (currentIndex + 1) % questions.length;
-                resetCheater();
                 updateQuestion();
             }
         });
@@ -156,16 +152,13 @@ public class QuizActivity extends AppCompatActivity {
                 return;
             }
 
-            isCheater = CheatActivity.wasCheated(dataIntent);
+            boolean isCheated = CheatActivity.wasCheated(dataIntent);
+            getCurrentQuestion().setCheated(isCheated);
         }
     }
 
     private boolean getCurrentAnswer() {
         return getCurrentQuestion().getAnswer();
-    }
-
-    private void resetCheater() {
-        isCheater = false;
     }
 
     public void updateQuestion() {
@@ -182,7 +175,7 @@ public class QuizActivity extends AppCompatActivity {
 
         int result ;
 
-        if( isCheater ) {
+        if( getCurrentQuestion().getCheated() ) {
             result = R.string.cheater_text;
         } else {
             if (answer == correctAnswer) {
