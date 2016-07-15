@@ -13,25 +13,29 @@ import android.widget.Toast;
 public class QuizActivity extends AppCompatActivity {
 
     private static final int REQUEST_CHEATED = 7628;
-    Button trueButton;
-    Button cheatButton;
-    Button falseButton;
-    Button previousButton;
-    Button nextButton;
+    private static final String TAG = "AYPQUIZ";
+    private static final String INDEX = "INDEX";
 
-    TextView questionText;
+    private Button trueButton;
+    private Button cheatButton;
+    private Button falseButton;
+    private Button previousButton;
+    private Button nextButton;
+    private TextView questionText;
 
-    Question[] questions = new Question[] {
+    private Question[] questions = new Question[] {
             new Question(R.string.question_1_nile, true),
             new Question(R.string.question_2_rawin, true),
             new Question(R.string.question_3_math, false),
             new Question(R.string.question_4_mar, false)
     };
 
-    int currentIndex;
-    private static final String TAG = "AYPQUIZ";
-    private static final String INDEX = "INDEX";
+    private int currentIndex;
     private boolean isCheater;
+
+    public QuizActivity() {
+        Log.d(TAG, "Create QuizActivity");
+    }
 
     @Override
     protected void onStop() {
